@@ -18,6 +18,7 @@ body {
 
 .display {
     border: 1px solid rebeccapurple;
+    height: 50px;
 }
 
 #container-button {
@@ -33,16 +34,7 @@ body {
     flex-grow: 1;
 }
 
-.button-1,
-.button-2,
-.button-3,
-.button-4,
-.button-5,
-.button-6,
-.button-7,
-.button-8,
-.button-9,
-.button-0,
+.button-number,
 .button-clear,
 .button-equals,
 .button-divide,
@@ -53,15 +45,6 @@ body {
     height: 90px;
 }
 
-.button-1,
-.button-2,
-.button-3,
-.button-4,
-.button-5,
-.button-6,
-.button-7,
-.button-8,
-.button-9,
-.button-0 {
+.button-number {
     min-width: 130px;
 }
