@@ -16,9 +16,14 @@ body {
     margin-top: 100px;
 }
 
-.display {
+.screen {
+    
     border: 1px solid rebeccapurple;
     height: 50px;
+}
+.last-screen,.current-screen{
+    display: flex;
+    justify-content: flex-end;
 }
 
 #container-button {
