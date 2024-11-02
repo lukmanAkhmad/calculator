@@ -5,32 +5,56 @@ const buttonNumber = document.querySelectorAll(".button-number");
 const buttonOperator = document.querySelectorAll("#button-operator");
 const buttonEquals = document.querySelector(".button-equals");
 
+buttonEquals.addEventListener("click", evaluate);
+
 let firstNumber = "";
-let operator = null;
+let currentOperator = null;
 let secondNumber = "";
 
 buttonNumber.forEach((elem) => {
     elem.addEventListener("click", () => {
-        enterNumberToScreen(elem.textContent);
+        if (currentOperator !== null) {
+            secondNumber += elem.textContent;
+            enterNumberToScreen(secondNumber)
+            console.log(`Second Number = ${secondNumber}`)
+        } else if (currentOperator === null) {
+            firstNumber += elem.textContent;
+            enterNumberToScreen(firstNumber)
+            console.log(`First Number = ${firstNumber}`)
+        }
     });
 });
 
-function enterNumberToScreen(number){
-    currentScreen.textContent += number
-};
-
-function setOperate(){
-    firstNumber = currentScreen.textContent;
-}
-
 buttonOperator.forEach((elem) => {
     elem.addEventListener("click", () => {
-        operator = elem.textContent;
-        displayValue = operator;
-        screenDisplay.textContent = `${firstNumber} ${operator}`;
-        return opClicked = true;
-    })
-})
+        setOperation(elem.textContent);
+    });
+});
+
+function enterNumberToScreen(number) {
+    currentScreen.textContent = number;
+};
+
+function setOperation(operator) {
+    currentOperator = operator;
+    if(currentOperator !== null){
+        firstNumber = currentScreen.textContent;
+        secondNumber = "";
+    };
+    lastScreen.textContent = `${firstNumber} ${currentOperator}`;
+
+};
+
+function evaluate(){
+    currentScreen.textContent = convertToDecimal(
+        operate(currentOperator,firstNumber,secondNumber)
+    );
+    lastScreen.textContent = `${firstNumber} ${currentOperator} ${secondNumber}`;
+};
+
+function convertToDecimal(number){
+    return Math.round(number * 1000) / 1000;
+}
 
 buttonEquals.addEventListener("click", () => {
     console.log("button equals")
@@ -49,27 +73,21 @@ function divide(a, b) {
     return a / b;
 };
 
-
 function operate(operator, firstNumber, secondNumber) {
     let firstNumbers = Number(firstNumber);
     let secondNumbers = Number(secondNumber);
     switch (operator) {
         case "+":
-            add(firstNumbers, secondNumbers);
-            break;
+            return add(firstNumbers, secondNumbers);
+            
         case "-":
-            subtract(firstNumbers, secondNumbers);
-            break;
-        case "*":
-            multiply(firstNumbers, secondNumbers);
-            break;
+            return subtract(firstNumbers, secondNumbers);
+            
+        case "X":
+            return multiply(firstNumbers, secondNumbers);
+            
         case "/":
-            divide(firstNumbers, secondNumbers);
-            break;
+            return divide(firstNumbers, secondNumbers);
+            
     };
 };
-console.log(operate('+', 1, 2));
-
-// nomor yang diinput dengan button harus disimpan di firstNumber dan secondNumber
-// setehal itu nilai keduanya disimpan ke displayValue untuk ditampilkan
-// jika button operator ditekan maka value disimpan di secondNumber
