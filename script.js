@@ -4,8 +4,10 @@ const currentScreen = document.querySelector(".current-screen");
 const buttonNumber = document.querySelectorAll(".button-number");
 const buttonOperator = document.querySelectorAll("#button-operator");
 const buttonEquals = document.querySelector(".button-equals");
+const clearButton = document.querySelector(".button-clear");
 
 buttonEquals.addEventListener("click", evaluate);
+clearButton.addEventListener("click", clearData);
 
 let firstNumber = "";
 let currentOperator = null;
@@ -37,7 +39,7 @@ function enterNumberToScreen(number) {
 
 function setOperation(operator) {
     currentOperator = operator;
-    if(currentOperator !== null){
+    if (currentOperator !== null) {
         firstNumber = currentScreen.textContent;
         secondNumber = "";
     };
@@ -45,14 +47,23 @@ function setOperation(operator) {
 
 };
 
-function evaluate(){
+function evaluate() {
+    if(currentOperator === null) return;
     currentScreen.textContent = convertToDecimal(
-        operate(currentOperator,firstNumber,secondNumber)
+        operate(currentOperator, firstNumber, secondNumber)
     );
     lastScreen.textContent = `${firstNumber} ${currentOperator} ${secondNumber}`;
 };
 
-function convertToDecimal(number){
+function clearData(){
+    lastScreen.textContent = "";
+    currentScreen.textContent = "";
+    firstNumber = "";
+    currentOperator = null;
+    secondNumber = "";
+}
+
+function convertToDecimal(number) {
     return Math.round(number * 1000) / 1000;
 }
 
@@ -79,15 +90,15 @@ function operate(operator, firstNumber, secondNumber) {
     switch (operator) {
         case "+":
             return add(firstNumbers, secondNumbers);
-            
+
         case "-":
             return subtract(firstNumbers, secondNumbers);
-            
+
         case "X":
             return multiply(firstNumbers, secondNumbers);
-            
+
         case "/":
             return divide(firstNumbers, secondNumbers);
-            
+
     };
 };
