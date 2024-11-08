@@ -53,3 +53,6 @@ body {
 .button-number {
     min-width: 130px;
 }
+.button-dot-notation{
+    min-width: 50px;
+}

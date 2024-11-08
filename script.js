@@ -6,10 +6,12 @@ const buttonOperator = document.querySelectorAll("#button-operator");
 const buttonEquals = document.querySelector(".button-equals");
 const clearButton = document.querySelector(".button-clear");
 const buttonBackSpace = document.querySelector(".button-backspace");
+const buttonDot = document.querySelector(".button-dot-notation");
 
 buttonEquals.addEventListener("click", evaluate);
 clearButton.addEventListener("click", clearData);
 buttonBackSpace.addEventListener("click", backSpace);
+buttonDot.addEventListener("click", inputDot);
 buttonNumber.forEach((elem) => {
     elem.addEventListener("click", buttonNumberOnClick)
 });
@@ -113,7 +115,7 @@ function inputFromKeyboard(events) {
         || events.key === "-") {
         setOperation(convertOperator(events.key))
     };
-    if(events.key === "Escape") clearData();
+    if (events.key === "Escape") clearData();
 };
 
 function convertOperator(keyboardOperator) {
@@ -123,7 +125,26 @@ function convertOperator(keyboardOperator) {
     if (keyboardOperator === "-") return "-";
 };
 
+function inputDot() {
+    if (currentScreen.textContent === "") {
+        currentScreen.textContent = "0";
+        if (currentOperator !== null) {
+            secondNumber += "0.";
+        } else if (currentOperator === null) {
+            firstNumber += "0.";
+        };
+    } else if (currentScreen.textContent !== "") {
+        if (currentOperator !== null) {
+            secondNumber += ".";
+        } else if (currentOperator === null) {
+            firstNumber += ".";
+        };
+    };
 
+    if (currentScreen.textContent.includes(".")) return;
+
+    currentScreen.textContent += ".";
+};
 
 function convertToDecimal(number) {
     return Math.round(number * 1000) / 1000;
@@ -157,6 +178,5 @@ function operate(operator, firstNumber, secondNumber) {
 
         case "/":
             return divide(firstNumbers, secondNumbers);
-
     };
 };
