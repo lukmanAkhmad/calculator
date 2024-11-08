@@ -67,7 +67,7 @@ function setOperation(operator) {
     currentOperator = operator;
     lastScreen.textContent = `${firstNumber} ${currentOperator}`;
 };
-
+// jika secondNumber === "" dan currentOperator !== null maka tampilkan firstNumber dan currentOperator (pada saat setOperation)
 function evaluate() {
     if (currentOperator === null) return;
     if (currentOperator === "/" && (firstNumber === "0" || secondNumber === "0")) {
@@ -116,6 +116,7 @@ function inputFromKeyboard(events) {
         setOperation(convertOperator(events.key))
     };
     if (events.key === "Escape") clearData();
+    if (events.key === ".") inputDot();
 };
 
 function convertOperator(keyboardOperator) {
@@ -126,6 +127,8 @@ function convertOperator(keyboardOperator) {
 };
 
 function inputDot() {
+    if (currentScreen.textContent.includes(".")) return;
+
     if (currentScreen.textContent === "") {
         currentScreen.textContent = "0";
         if (currentOperator !== null) {
@@ -140,8 +143,6 @@ function inputDot() {
             firstNumber += ".";
         };
     };
-
-    if (currentScreen.textContent.includes(".")) return;
 
     currentScreen.textContent += ".";
 };
