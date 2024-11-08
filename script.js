@@ -10,43 +10,58 @@ const buttonBackSpace = document.querySelector(".button-backspace");
 buttonEquals.addEventListener("click", evaluate);
 clearButton.addEventListener("click", clearData);
 buttonBackSpace.addEventListener("click", backSpace);
+buttonNumber.forEach((elem) => {
+    elem.addEventListener("click", buttonNumberOnClick)
+});
+buttonOperator.forEach((elem) => {
+    elem.addEventListener("click", buttonOperatorOnClick)
+});
+window.addEventListener("keyup", inputFromKeyboard);
 
 let firstNumber = "";
 let currentOperator = null;
 let secondNumber = "";
 
-buttonNumber.forEach((elem) => {
-    elem.addEventListener("click", () => {
-        if (currentOperator !== null) {
-            secondNumber += elem.textContent;
-            enterNumberToScreen(secondNumber);
-            console.log(`Second Number = ${secondNumber}`);
-        } else if (currentOperator === null) {
-            firstNumber += elem.textContent;
-            enterNumberToScreen(firstNumber);
-            console.log(`First Number = ${firstNumber}`);
-        };
-    });
-});
+function buttonNumberOnClick() {
+    if (currentOperator !== null) {
+        // secondNumber += this.textContent;
+        let valueFromButton = "";
+        valueFromButton += this.textContent;
+        enterNumberToScreen(valueFromButton);
+        console.log(`Second Number = ${secondNumber}`);
+    } else if (currentOperator === null) {
+        // firstNumber += this.textContent;
+        let valueFromButton = "";
+        valueFromButton += this.textContent;
+        enterNumberToScreen(valueFromButton);
+        console.log(`First Number = ${firstNumber}`);
+        console.log(`valueFromButton = ${valueFromButton}`);
+    };
+};
 
-buttonOperator.forEach((elem) => {
-    elem.addEventListener("click", () => {
-        if(currentOperator !== null){
-            evaluate();
-        };
-        setOperation(elem.textContent);
-    });
-});
+function buttonOperatorOnClick() {
+    currentScreen.textContent = "";
+    setOperation(this.textContent);
+
+};
 
 function enterNumberToScreen(number) {
-    currentScreen.textContent = number;
+    currentScreen.textContent += number;
+    if (currentOperator !== null) {
+        secondNumber += number;
+    } else if (currentOperator === null) {
+        firstNumber += number;
+    };
 };
 
 function setOperation(operator) {
     if (currentOperator !== null) {
+        evaluate();
         firstNumber = currentScreen.textContent;
+        currentScreen.textContent = "";
         secondNumber = "";
     };
+    currentScreen.textContent = "";
     currentOperator = operator;
     lastScreen.textContent = `${firstNumber} ${currentOperator}`;
 };
@@ -60,7 +75,7 @@ function evaluate() {
     currentScreen.textContent = convertToDecimal(
         operate(currentOperator, firstNumber, secondNumber)
     );
-    lastScreen.textContent = `${firstNumber} ${currentOperator} ${secondNumber}`;
+    lastScreen.textContent = `${firstNumber} ${currentOperator} ${secondNumber} = `;
 };
 
 function clearData() {
@@ -84,8 +99,31 @@ function backSpace() {
         currentScreen.textContent = deleteNumber;
         secondNumber = currentScreen.textContent;
         console.log(secondNumber)
-    }
+    };
 };
+
+function inputFromKeyboard(events) {
+    console.log(events);
+    if (events.key >= 0 && events.key <= 9) enterNumberToScreen(events.key);
+    if (events.key === "Backspace") backSpace();
+    if ((events.key === "=") || (events.key === "Enter")) evaluate();
+    if (events.key === "*"
+        || events.key === "/"
+        || events.key === "+"
+        || events.key === "-") {
+        setOperation(convertOperator(events.key))
+    };
+    if(events.key === "Escape") clearData();
+};
+
+function convertOperator(keyboardOperator) {
+    if (keyboardOperator === "*") return "X";
+    if (keyboardOperator === "/") return "/";
+    if (keyboardOperator === "+") return "+";
+    if (keyboardOperator === "-") return "-";
+};
+
+
 
 function convertToDecimal(number) {
     return Math.round(number * 1000) / 1000;
