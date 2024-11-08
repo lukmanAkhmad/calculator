@@ -57,6 +57,10 @@ function enterNumberToScreen(number) {
 };
 
 function setOperation(operator) {
+    if (currentOperator !== null && secondNumber === "") {
+        currentOperator = operator;
+        return lastScreen.textContent = `${firstNumber} ${currentOperator}`;
+    };
     if (currentOperator !== null) {
         evaluate();
         firstNumber = currentScreen.textContent;
@@ -67,7 +71,7 @@ function setOperation(operator) {
     currentOperator = operator;
     lastScreen.textContent = `${firstNumber} ${currentOperator}`;
 };
-// jika secondNumber === "" dan currentOperator !== null maka tampilkan firstNumber dan currentOperator (pada saat setOperation)
+
 function evaluate() {
     if (currentOperator === null) return;
     if (currentOperator === "/" && (firstNumber === "0" || secondNumber === "0")) {
