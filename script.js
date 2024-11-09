@@ -2,7 +2,7 @@ const screenDisplay = document.querySelector(".screen");
 const lastScreen = document.querySelector(".last-screen");
 const currentScreen = document.querySelector(".current-screen");
 const buttonNumber = document.querySelectorAll(".button-number");
-const buttonOperator = document.querySelectorAll("#button-operator");
+const buttonOperator = document.querySelectorAll(".button-operator");
 const buttonEquals = document.querySelector(".button-equals");
 const clearButton = document.querySelector(".button-clear");
 const buttonBackSpace = document.querySelector(".button-backspace");
@@ -124,7 +124,7 @@ function inputFromKeyboard(events) {
 };
 
 function convertOperator(keyboardOperator) {
-    if (keyboardOperator === "*") return "X";
+    if (keyboardOperator === "*") return "x";
     if (keyboardOperator === "/") return "/";
     if (keyboardOperator === "+") return "+";
     if (keyboardOperator === "-") return "-";
@@ -178,7 +178,7 @@ function operate(operator, firstNumber, secondNumber) {
         case "-":
             return subtract(firstNumbers, secondNumbers);
 
-        case "X":
+        case "x":
             return multiply(firstNumbers, secondNumbers);
 
         case "/":
