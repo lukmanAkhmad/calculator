@@ -76,7 +76,7 @@ function evaluate() {
     if (currentOperator === null) return;
     if (currentOperator === "/" && (firstNumber === "0" || secondNumber === "0")) {
         secondNumber = "";
-        return currentScreen.textContent = "You cannot divide by zero !!!";
+        return currentScreen.textContent = "Cannot divide by 0 !";
     };
     currentScreen.textContent = convertToDecimal(
         operate(currentOperator, firstNumber, secondNumber)
